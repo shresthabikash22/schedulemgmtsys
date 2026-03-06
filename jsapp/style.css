@@ -1,0 +1,285 @@
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: sans-serif;
+    font-size: 13px;
+    background: #e8e8e8;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── Title bar — mirrors JFrame title ── */
+#titlebar {
+    background: #2c6fad;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 8px 14px;
+    flex-shrink: 0;
+}
+
+/* ── App container — mirrors JSplitPane ── */
+#app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding: 16px 8px 8px;  /* extra top padding so legends aren't clipped */
+    gap: 8px;
+}
+
+/* ────────────────────────────────────────────
+   LEFT PANEL — mirrors buildInputPanel()
+──────────────────────────────────────────── */
+#left-panel {
+    width: 270px;
+    min-width: 270px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Name row — mirrors FlowLayout name row */
+#name-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+#name-row label { white-space: nowrap; }
+#nameInput {
+    flex: 1;
+    padding: 4px 6px;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    font-size: 13px;
+}
+
+/* Employee list box — mirrors JScrollPane + TitledBorder */
+#list-box {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;     /* allow legend label to sit above the border */
+    background: white;
+    margin-top: 10px;      /* room for the legend label */
+}
+
+/* Titled border label — mirrors BorderFactory.createTitledBorder() */
+.box-legend {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    background: #e8e8e8;
+    padding: 0 4px;
+    position: absolute;
+    top: -9px;
+    left: 8px;
+    white-space: nowrap;
+}
+
+#empList {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 8px;
+    padding: 2px 0;
+}
+
+/* Employee list items — mirrors JList cell rendering */
+.emp-item {
+    padding: 5px 10px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #f0f0f0;
+    color: #1a1a1a;
+}
+.emp-item:hover    { background: #e8f0ff; }
+.emp-item.selected { background: #3574d4; color: white; }
+
+/* Button stack — mirrors GridLayout(3, 1) */
+#btn-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Buttons — mirrors btn() factory with setOpaque(true) */
+.btn {
+    padding: 7px 10px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+.btn:hover  { filter: brightness(1.12); }
+.btn:active { filter: brightness(0.9);  }
+.btn-green { background: #22870e; }
+.btn-blue  { background: #1964c8; }
+.btn-red   { background: #b42828; }
+.btn-black { background: #141414; }
+
+/* ────────────────────────────────────────────
+   RIGHT PANEL — mirrors buildOutputPanel()
+──────────────────────────────────────────── */
+#right-panel {
+    flex: 1;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    position: relative;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;     /* allow legend label to sit above the border */
+    margin-top: 10px;      /* room for the legend label */
+}
+
+/* mirrors: JTextArea (read-only, monospaced) */
+#output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 14px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    white-space: pre;
+    color: #222;
+    margin-top: 6px;
+}
+
+/* ────────────────────────────────────────────
+   PREFERENCE MODAL — mirrors PreferenceDialog.java
+──────────────────────────────────────────── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+    background: #f0f0f0;
+    border: 1px solid #888;
+    border-radius: 4px;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.4);
+    width: 540px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* mirrors: dialog title bar */
+.modal-titlebar {
+    background: #2c6fad;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 7px 12px;
+}
+
+.modal-body {
+    padding: 12px 14px 6px;
+    overflow-y: auto;
+    max-height: 420px;
+}
+
+/* Preference grid — mirrors GridLayout(7, 4, 8, 6) */
+.pref-grid {
+    display: grid;
+    grid-template-columns: 110px 1fr 1fr 1fr;
+    gap: 6px 10px;
+    align-items: center;
+}
+.pref-header {
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ccc;
+}
+.pref-header:first-child { text-align: right; }
+
+.pref-day {
+    text-align: right;
+    font-size: 12px;
+    color: #222;
+    padding-right: 4px;
+}
+
+/* mirrors: JComboBox with setPreferredSize(110, 26) */
+.pref-select {
+    width: 100%;
+    padding: 3px 4px;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    font-size: 12px;
+    background: white;
+}
+
+/* Dialog buttons */
+.modal-btns {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 14px 12px;
+}
+.modal-btn {
+    padding: 6px 20px;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+}
+.modal-btn:hover    { filter: brightness(1.12); }
+.modal-btn-cancel   { background: #5a5a5a; }
+.modal-btn-save     { background: #22870e; }
+
+/* ────────────────────────────────────────────
+   ALERT BOX — mirrors JOptionPane.showMessageDialog
+──────────────────────────────────────────── */
+#alert-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+}
+#alert-overlay.open { display: flex; }
+
+#alert-box {
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px 24px;
+    max-width: 340px;
+    text-align: center;
+}
+#alert-msg {
+    margin-bottom: 14px;
+    color: #222;
+    font-size: 13px;
+}
+#alert-ok {
+    padding: 5px 24px;
+    background: #2c6fad;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+}
